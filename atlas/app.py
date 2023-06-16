@@ -9,7 +9,7 @@ from flask_caching import Cache
 
 from atlas.configuration.config_parser import valid_config_from_dict
 from atlas.configuration.config_schema import AtlasConfig, SecretSchemaConf
-from atlas.env import atlas_static_folder, atlas_template_folder, atlas_config_file_path, cache
+from atlas.env import atlas_static_folder, atlas_template_folder, atlas_config_file_path
 
 db = SQLAlchemy()
 compress = Compress()
