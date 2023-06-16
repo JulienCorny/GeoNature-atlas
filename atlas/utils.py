@@ -4,14 +4,14 @@ from sqlalchemy import MetaData
 from sqlalchemy import create_engine
 from sqlalchemy.pool import QueuePool
 
-from atlas.configuration.config import database_connection, NOM_APPLICATION
+from flask import current_app
 
 engine = create_engine(
-    database_connection,
+    current_app.config['database_connection'],
     client_encoding="utf8",
     echo=False,
     poolclass=QueuePool,
-    connect_args={"application_name": "GN-atlas_{}".format(NOM_APPLICATION)},
+    connect_args={"application_name": "GN-atlas_{}".format(current_app.config['NOM_APPLICATION'])},
 )
 
 
@@ -23,9 +23,9 @@ def loadSession():
     return session
 
 
-def format_number(val):
-    """ Ajouter des espaces en séparateur de milliers """
-    return "{:,}".format(val).replace(",", " ")
+# def format_number(val):
+#     """ Ajouter des espaces en séparateur de milliers """
+#     return "{:,}".format(val).replace(",", " ")
 
 
 SERIALIZERS = {

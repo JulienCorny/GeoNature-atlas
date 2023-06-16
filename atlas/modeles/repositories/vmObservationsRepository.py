@@ -17,7 +17,7 @@ def searchObservationsChilds(session, cd_ref):
     global cached_vm_observation
     # on met en cache le GenericTable (lourd en traitement)
     if cached_vm_observation is None:
-        cached_vm_observation = GenericTable("vm_observations", "atlas", engine)
+        cached_vm_observation = GenericTable("vm_observations", "atlas", engine())
 
     subquery = session.query(func.atlas.find_all_taxons_childs(cd_ref))
     query = session.query(cached_vm_observation.tableDef).filter(

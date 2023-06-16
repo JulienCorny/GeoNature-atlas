@@ -36,6 +36,19 @@ CHANGELOG
   d'anonymiser indépendamment les organismes et les observateurs
 - Suivez la procédure classique de mise à jour de l'application.
 
+1.5.2 (unreleased)
+------------------
+
+**Nouveauté**
+
+- Gestion du proxy avec ``ProxyFix``
+- [Docker]: ajout d'un fichier dockerfile
+- [Docker]: ajout de scripts ``docker_startup.sh`` et ``docker_install_atlas_schema`` (sera joué au démarrage du container si la variable d'environnement ``ATLAS_INSTALL_SCHEMA`` est à  ``true```)
+- Possibilité de définir le chemin vers le fichier de config avec ``ATLAS_SETTINGS`` (par défault ``atlas/configuration/config.py``)
+- Possibilité de définir le chemin vers le dossier des templates avec ``ATLAS_TEMPLATE_FOLDER``(par défault ``.``)
+- Possibilité de définir le chemin vers le dossier des templates avec ``ATLAS_STATIC_FOLDER``(par défault ``atlas/static``)
+
+
 1.5.1 (2021-12-06)
 ------------------
 

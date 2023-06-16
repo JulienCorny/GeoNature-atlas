@@ -1,16 +1,10 @@
-from flask_caching import Cache
+import os
+from pathlib import Path
 
-from atlas.configuration.config_parser import valid_config_from_dict, read_config_file
-from atlas.configuration.config_schema import AtlasConfig, SecretSchemaConf
+default_atlas_config_file_path=Path(__file__).parent / 'config.py'
+default_atlas_static_folder=Path(__file__).parent.parent / 'static'
+default_atlas_template_folder=Path(__file__).parent.parent
 
-from atlas.configuration import config
-
-
-config_dict = read_config_file(config)
-config = valid_config_from_dict(config_dict, AtlasConfig)
-secret_conf = valid_config_from_dict(config_dict, SecretSchemaConf)
-
-cache = Cache(config={
-    'CACHE_TYPE': 'SimpleCache',
-    "CACHE_DEFAULT_TIMEOUT": secret_conf["CACHE_TIMEOUT"]
-    })
+atlas_config_file_path=os.environ.get("ATLAS_SETTINGS", default_atlas_config_file_path)
+atlas_static_folder = os.environ.get("ATLAS_STATIC_FOLDER", default_atlas_static_folder)
+atlas_template_folder = os.environ.get("ATLAS_TEMPLATE_FOLDER", default_atlas_static_folder)

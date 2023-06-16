@@ -17,7 +17,6 @@ from flask import (
 )
 
 from atlas import utils
-from atlas.env import config
 from atlas.modeles.entities import vmTaxons, vmCommunes
 from atlas.modeles.repositories import (
     vmOrganismsRepository,
@@ -36,7 +35,7 @@ from atlas.modeles.repositories import (
 
 # Adding functions for multilingual url process if MULTILINGUAL = True
 main = Blueprint("main", __name__)  # , url_prefix='/<lang_code>')
-if config["MULTILINGUAL"]:
+if current_app.config["MULTILINGUAL"]:
 
     @main.url_defaults
     def add_language_code(endpoint, values):
@@ -55,7 +54,7 @@ if config["MULTILINGUAL"]:
                 default_lang_code = session["language"]
             else:
                 default_lang_code = request.accept_languages.best_match(
-                    config["AVAILABLE_LANGUAGES"].keys(), config["DEFAULT_LANGUAGE"]
+                    current_app.config["AVAILABLE_LANGUAGES"].keys(), current_app.config["DEFAULT_LANGUAGE"]
                 )
             view_args = request.view_args
             view_args["lang_code"] = default_lang_code
@@ -77,7 +76,7 @@ def especeMedias(image):
 
 
 # Activating organisms sheets routes
-if config["ORGANISM_MODULE"]:
+if current_app.config["ORGANISM_MODULE"]:
 
     @main.route("/organism/<int:id_organism>", methods=["GET", "POST"])
     def ficheOrganism(id_organism):
@@ -396,7 +395,7 @@ def photos():
     connection.close()
     return render_template("templates/photoGalery/_main.html", groups=groups)
 
-if config["AFFICHAGE_RECHERCHE_AVANCEE"]:
+if current_app.config["AFFICHAGE_RECHERCHE_AVANCEE"]:
     @main.route("/recherche", methods=["GET"])
     def advanced_search():
         return render_template("templates/core/advanced_search.html", )
