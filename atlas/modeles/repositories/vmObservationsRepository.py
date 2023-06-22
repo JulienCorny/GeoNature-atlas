@@ -6,7 +6,8 @@ from geojson import Feature, FeatureCollection
 from sqlalchemy.sql import text, func, or_
 
 from atlas.modeles import utils
-from atlas.utils import engine, GenericTable
+from atlas.env import db
+from atlas.utils import GenericTable
 from atlas.modeles.repositories import vmMedias
 
 currentYear = datetime.now().year

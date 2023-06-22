@@ -5,23 +5,22 @@ from flask_compress import Compress
 from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel, format_date, gettext, ngettext, get_locale
 from werkzeug.middleware.proxy_fix import ProxyFix
-from flask_caching import Cache
 
 from atlas.configuration.config_parser import valid_config_from_dict
 from atlas.configuration.config_schema import AtlasConfig, SecretSchemaConf
-from atlas.env import atlas_static_folder, atlas_template_folder, atlas_config_file_path
+from atlas.env import atlas_static_folder, atlas_template_folder, atlas_config_file_path, db, cache
 
-db = SQLAlchemy()
 compress = Compress()
 
 def create_app():
     """
     renvoie une instance de l'app Flask
     """
-    app = Flask(__name__, template_folder=str(atlas_template_folder), static_folder=atlas_static_folder)
+
+    app = Flask(__name__, template_folder=atlas_template_folder, static_folder=atlas_static_folder)
     # push the config in app config at 'PUBLIC' key
-    # app.config.update(config)
     app.config.from_pyfile(str(atlas_config_file_path))
+
     app.config.from_prefixed_env(prefix="ATLAS")
     config_valid=valid_config_from_dict(copy.copy(app.config), AtlasConfig)
     config_secret_valid=valid_config_from_dict(copy.copy(app.config), SecretSchemaConf)
@@ -29,12 +28,10 @@ def create_app():
     app.config.update(config_valid)
     app.config.update(config_secret_valid)
 
-    cache = Cache(config={
-    'CACHE_TYPE': 'SimpleCache',
-    "CACHE_DEFAULT_TIMEOUT": app.config["CACHE_TIMEOUT"]
-    })
-
+    db.init_app(app)
+    cache.init_app(app)
     babel = Babel(app)
+    compress.init_app(app)
 
     @babel.localeselector
     def get_locale():
@@ -55,9 +52,6 @@ def create_app():
         from atlas.atlasAPI import api
 
         app.register_blueprint(api, url_prefix="/api")
-        compress.init_app(app)
-
-        cache.init_app(app)
 
         if "SCRIPT_NAME" not in os.environ and "APPLICATION_ROOT" in app.config:
             os.environ["SCRIPT_NAME"] = app.config["APPLICATION_ROOT"].rstrip("/")

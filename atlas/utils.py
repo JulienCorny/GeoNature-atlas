@@ -6,21 +6,13 @@ from sqlalchemy.pool import QueuePool
 
 from flask import current_app
 
-engine = create_engine(
-    current_app.config['database_connection'],
-    client_encoding="utf8",
-    echo=False,
-    poolclass=QueuePool,
-    connect_args={"application_name": "GN-atlas_{}".format(current_app.config['NOM_APPLICATION'])},
-)
-
-
-def loadSession():
-    from sqlalchemy.orm import sessionmaker
-
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    return session
+# engine = create_engine(
+#     current_app.config['SQLALCHEMY_DATABASE_URI'],
+#     client_encoding="utf8",
+#     echo=False,
+#     poolclass=QueuePool,
+#     connect_args={"application_name": "GN-atlas_{}".format(current_app.config['NOM_APPLICATION'])},
+# )
 
 
 # def format_number(val):

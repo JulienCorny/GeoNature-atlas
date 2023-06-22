@@ -16,6 +16,7 @@ from flask import (
     session,
 )
 
+from atlas.env import db
 from atlas import utils
 from atlas.modeles.entities import vmTaxons, vmCommunes
 from atlas.modeles.repositories import (
@@ -80,8 +81,8 @@ if current_app.config["ORGANISM_MODULE"]:
 
     @main.route("/organism/<int:id_organism>", methods=["GET", "POST"])
     def ficheOrganism(id_organism):
-        db_session = utils.loadSession()
-        connection = utils.engine.connect()
+        db_session = db.session
+        connection = db.engine.connect()
 
         infos_organism = vmOrganismsRepository.statOrganism(connection, id_organism)
 
@@ -171,8 +172,8 @@ def indexMedias(image):
 
 @main.route("/", methods=["GET", "POST"])
 def index():
-    session = utils.loadSession()
-    connection = utils.engine.connect()
+    session = db.session
+    connection = db.engine.connect()
 
     if current_app.config["AFFICHAGE_DERNIERES_OBS"]:
         if current_app.config["AFFICHAGE_MAILLE"]:
@@ -229,8 +230,8 @@ def index():
 
 @main.route("/espece/<int(signed=True):cd_nom>", methods=["GET", "POST"])
 def ficheEspece(cd_nom):
-    db_session = utils.loadSession()
-    connection = utils.engine.connect()
+    db_session = db.session
+    connection = db.engine.connect()
 
     # Get cd_ref from cd_nom
     cd_ref = vmTaxrefRepository.get_cd_ref(connection, cd_nom)
@@ -305,8 +306,8 @@ def ficheEspece(cd_nom):
 
 @main.route("/commune/<insee>", methods=["GET", "POST"])
 def ficheCommune(insee):
-    session = utils.loadSession()
-    connection = utils.engine.connect()
+    session = db.session
+    connection = db.engine.connect()
 
     listTaxons = vmTaxonsRepository.getTaxonsCommunes(connection, insee)
     commune = vmCommunesRepository.getCommuneFromInsee(connection, insee)
@@ -341,8 +342,8 @@ def ficheCommune(insee):
 
 @main.route("/liste/<int(signed=True):cd_ref>", methods=["GET", "POST"])
 def ficheRangTaxonomie(cd_ref):
-    session = utils.loadSession()
-    connection = utils.engine.connect()
+    session = db.session
+    connection = db.engine.connect()
 
     listTaxons = vmTaxonsRepository.getTaxonsChildsList(connection, cd_ref)
     referenciel = vmTaxrefRepository.getInfoFromCd_ref(session, cd_ref)
@@ -364,8 +365,8 @@ def ficheRangTaxonomie(cd_ref):
 
 @main.route("/groupe/<groupe>", methods=["GET", "POST"])
 def ficheGroupe(groupe):
-    session = utils.loadSession()
-    connection = utils.engine.connect()
+    session = db.session
+    connection = db.engine.connect()
 
     groups = vmTaxonsRepository.getAllINPNgroup(connection)
     listTaxons = vmTaxonsRepository.getTaxonsGroup(connection, groupe)
@@ -386,8 +387,8 @@ def ficheGroupe(groupe):
 
 @main.route("/photos", methods=["GET", "POST"])
 def photos():
-    session = utils.loadSession()
-    connection = utils.engine.connect()
+    session = db.session
+    connection = db.engine.connect()
 
     groups = vmTaxonsRepository.getINPNgroupPhotos(connection)
 
@@ -402,7 +403,7 @@ if current_app.config["AFFICHAGE_RECHERCHE_AVANCEE"]:
 
 @main.route("/<page>", methods=["GET", "POST"])
 def get_staticpages(page):
-    session = utils.loadSession()
+    session = db.session
     if page not in current_app.config["STATIC_PAGES"]:
         abort(404)
     static_page = current_app.config["STATIC_PAGES"][page]
@@ -415,8 +416,8 @@ def sitemap():
     """Generate sitemap.xml iterating over static and dynamic routes to make a list of urls and date modified"""
     pages = []
     ten_days_ago = datetime.now() - timedelta(days=10)
-    session = utils.loadSession()
-    connection = utils.engine.connect()
+    session = db.session
+    connection = db.engine.connect()
     url_root = request.url_root
     if url_root[-1] == "/":
         url_root = url_root[:-1]
