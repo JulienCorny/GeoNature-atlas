@@ -41,6 +41,7 @@ RUN --mount=type=cache,target=/root/.cache \
     pip install --upgrade pip setuptools wheel
 
 COPY /atlas/static ./static
+COPY /atlas/static/custom ./custom_save
 COPY /atlas/templates ./templates
 COPY --from=node /dist/node_modules ./static/node_modules
 

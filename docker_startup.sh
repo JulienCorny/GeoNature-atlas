@@ -2,7 +2,7 @@
 
 # script pour l'entry point du docker atlas
 
-set -eof pipefail
+set -xeof pipefail
 export PGPASSWORD=${POSTGRES_PASSWORD}
 
 # si la variable ATLAS_RESET_SCHEMA est à true
@@ -40,34 +40,41 @@ fi
 # dossier custom
 
 # dossiers
-for custom_dir in image templates; do
-
+for custom_dir in "images" "templates"; do
     if [ ! -d ${ATLAS_STATIC_FOLDER}/custom/${custom_dir}/ ]; then
         mkdir -p ${ATLAS_STATIC_FOLDER}/custom/${custom_dir}/
     fi
 done
 
 # fichiers (avec find ?)
-for custom_file in templates/footer.html \
-    templates/footer.html /
-    templates/introduction.html /
-    templates/presentation.html /
-    templates/credits.html /
-    templates/mentions-legales.html /
-    templates/bandeaulogoshome.html /
-    templates/robots.txt /
-    custom.css /
-    glossaire.json /
-    images/favicon.ico /
-    images/accueil-intro.jpg /
-    images/logo-structure.png /
-    images/logo_patrimonial.png /
-    maps-custom.js ; do
+echo aa
+ls ${ATLAS_STATIC_FOLDER}/../custom_save/images
+for custom_file in "templates/footer.html" \
+    "templates/footer.html" \
+    "templates/introduction.html" \
+    "templates/presentation.html" \
+    "templates/credits.html" \
+    "templates/mentions-legales.html" \
+    "templates/bandeaulogoshome.html" \
+    "templates/robots.txt" \
+    "custom.css" \
+    "glossaire.json" \
+    "maps-custom.js" ; do
 
-    if [ ! -f ${ATLAS_STATIC_FOLDER}/${custom_file} ]; then
-        cp ${ATLAS_STATIC_FOLDER}/${custom_file}.sample ${ATLAS_STATIC_FOLDER}/${custom_file}
+    if [ ! -f ${ATLAS_STATIC_FOLDER}/custom/${custom_file} ]; then
+        cp ${ATLAS_STATIC_FOLDER}/../custom_save/${custom_file}.sample ${ATLAS_STATIC_FOLDER}/custom/${custom_file}
     fi
 
+done
+
+for custom_file in "favicon.ico" \
+    "accueil-intro.jpg" \
+    "logo-structure.png" \
+    "logo_patrimonial.png" ; do
+
+    if [ ! -f ${ATLAS_STATIC_FOLDER}/custom/images/${custom_file} ]; then
+        cp ${ATLAS_STATIC_FOLDER}/images/sample.${custom_file} ${ATLAS_STATIC_FOLDER}/custom/images/${custom_file}
+    fi
 done
 
 
