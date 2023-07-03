@@ -85,4 +85,5 @@ gunicorn "atlas.wsgi:create_app()" \
     --bind=0.0.0.0:8080 \
     --access-logfile=- \
     --error-logfile=- \
-    --reload # pour relancer l'application en cas de modification du fichier de configuration
+    --reload \
+    --reload-extra-file=config/config.py # pour relancer l'application en cas de modification du fichier de configuration

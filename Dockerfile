@@ -9,6 +9,7 @@ FROM build AS build-atlas
 
 WORKDIR /build/
 COPY /setup.py .
+COPY --chmod=755 /docker_healthcheck.sh .
 COPY /requirements.in .
 COPY /VERSION .
 COPY /MANIFEST.in .
@@ -71,6 +72,8 @@ ENV FLASK_APP=app.app:create_app
 ENV ATLAS_SETTINGS=/dist/config/config.py
 ENV ATLAS_STATIC_FOLDER=/dist/static
 ENV ATLAS_TEMPLATE_FOLDER=/dist/
+
+COPY --chmod=755 /docker_healthcheck.sh .
 
 EXPOSE 8080
 
