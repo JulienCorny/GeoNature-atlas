@@ -1,17 +1,17 @@
-set -xeof pipefail
+set -eof pipefail
 
 # test env
 if [ -z "$ATLAS_TYPE_MAILLE" ]; then
 echo la variable ATLAS_TYPE_MAILLE n''est pas définie
-fi 
+fi
 
 if [ -z "$ATLAS_TYPE_TERRITOIRE" ]; then
 echo la variable ATLAS_TYPE_TERRITOIRE n''est pas définie
-fi 
+fi
 
 if [ -z "$ATLAS_ALTITUDES" ]; then
 echo la variable ATLAS_ALTITUDES $ATLAS_ALTITUDES n''est pas définie
-fi 
+fi
 
 if [ -z "$ATLAS_TYPE_MAILLE" ] || [ -z "$ATLAS_TYPE_TERRITOIRE" ] || [ -z "$ATLAS_ALTITUDES" ]; then
     exit 1
