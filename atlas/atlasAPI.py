@@ -151,7 +151,6 @@ def getPhotosGallery():
 @api.route("/main_stat", methods=["GET"])
 @cache.cached()
 def main_stat():
-    print('uuuuuuuuuuuuuuuuuuuuuuuuuuu  ')
     connection = db.engine.connect()
     return vmObservationsRepository.statIndex(connection)
 

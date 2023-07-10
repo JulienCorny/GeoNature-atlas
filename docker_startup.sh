@@ -2,7 +2,7 @@
 
 # script pour l'entry point du docker atlas
 
-set -xeof pipefail
+set -eof pipefail
 export PGPASSWORD=${POSTGRES_PASSWORD}
 
 # si la variable ATLAS_RESET_SCHEMA est à true
