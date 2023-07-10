@@ -47,8 +47,6 @@ for custom_dir in "images" "templates"; do
 done
 
 # fichiers (avec find ?)
-echo aa
-ls ${ATLAS_STATIC_FOLDER}/../custom_save/images
 for custom_file in "templates/footer.html" \
     "templates/footer.html" \
     "templates/introduction.html" \
