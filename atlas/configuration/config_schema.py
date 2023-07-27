@@ -219,6 +219,8 @@ class AtlasConfig(Schema):
     EXTENDED_AREAS = fields.Boolean(load_default=False)
     # Restricts the search (/area) and the /area/geom API 
     AREAS_LIST = fields.List(fields.String, load_default=[])
+    # Maximum number of extended areas requested
+    REQUEST_LIMIT_AREAS = fields.Integer(load_default=50)
 
     @validates_schema
     def validate_url_taxhub(self, data, **kwargs):
